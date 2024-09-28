@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AttendeeController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,7 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
+Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']); // Si necesitas registro
     Route::post('logout', [AuthController::class, 'logout']);
@@ -32,6 +33,10 @@ Route::resource('events', EventController::class);
 // Gestión de asistentes
 Route::resource('attendees', AttendeeController::class);
 
+//Categorias
+Route::resource('categories', CategoryController::class);
+
 // Pagos
 Route::get('events/{id}/details', [PaymentController::class, 'showEvent']);
 Route::post('events/{id}/purchase', [PaymentController::class, 'purchaseTicket']);
+

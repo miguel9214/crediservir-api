@@ -15,20 +15,13 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
-
-    'allowed_methods' => ['*'],
-
-    'allowed_origins' => ['*'],
-
+    'paths' => ['api/*', 'auth/*'], // Especifica las rutas donde se aplicará CORS, incluyendo tus rutas de API
+    'allowed_methods' => ['*'], // Permitir todos los métodos (GET, POST, PUT, DELETE, etc.)
+    'allowed_origins' => ['http://localhost:8080'], // Especifica el origen permitido (frontend)
     'allowed_origins_patterns' => [],
-
-    'allowed_headers' => ['*'],
-
+    'allowed_headers' => ['*'], // Permitir todos los encabezados
     'exposed_headers' => [],
-
     'max_age' => 0,
-
     'supports_credentials' => false,
 
 ];
