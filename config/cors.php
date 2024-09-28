@@ -17,7 +17,7 @@ return [
 
     'paths' => ['api/*', 'auth/*'], // Especifica las rutas donde se aplicará CORS, incluyendo tus rutas de API
     'allowed_methods' => ['*'], // Permitir todos los métodos (GET, POST, PUT, DELETE, etc.)
-    'allowed_origins' => ['http://localhost:8080'], // Especifica el origen permitido (frontend)
+    'allowed_origins' => ['http://localhost:8080'],['http://192.168.1.10:8080'], // Especifica el origen permitido (frontend)
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'], // Permitir todos los encabezados
     'exposed_headers' => [],

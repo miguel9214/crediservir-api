@@ -15,14 +15,7 @@ class EventController extends Controller
         return response()->json($events);
     }
 
-    // Mostrar formulario de creación de eventos (para Frontend si es necesario)
-    public function create()
-    {
-        $categories = Category::all(); // Traer todas las categorías
-        return response()->json($categories);
-    }
-
-    // Guardar nuevo evento
+    // Crear nuevo evento
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -40,21 +33,6 @@ class EventController extends Controller
 
         $event = Event::create($validatedData);
         return response()->json(['message' => 'Evento creado con éxito', 'event' => $event], 201);
-    }
-
-    // Mostrar un evento específico
-    public function show($id)
-    {
-        $event = Event::with('category')->findOrFail($id);
-        return response()->json($event);
-    }
-
-    // Mostrar formulario de edición (si se necesita para el Frontend)
-    public function edit($id)
-    {
-        $event = Event::findOrFail($id);
-        $categories = Category::all(); // Obtener todas las categorías para editar el evento
-        return response()->json(['event' => $event, 'categories' => $categories]);
     }
 
     // Actualizar evento existente
