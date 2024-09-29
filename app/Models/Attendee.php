@@ -16,4 +16,15 @@ class Attendee extends Model
             ->withPivot('ticket_type', 'price', 'discount_code', 'purchase_date')
             ->withTimestamps();
     }
+
+    protected $fillable = [
+        'first_name', 
+        'last_name', 
+        'date', 
+        'birth_date', 
+        'email', 
+        'phone', 
+    ];
+
+
 }
