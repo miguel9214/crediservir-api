@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\AttendeeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DiscountCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,11 @@ Route::resource('attendees', AttendeeController::class);
 
 //Categorias
 Route::resource('categories', CategoryController::class);
+
+//Codigo de descuetos
+Route::resource('discounts', DiscountCodeController::class);
+Route::post('/discounts/validate', [DiscountCodeController::class, 'validateCode']);
+
 
 // Pagos
 Route::get('events/{id}/details', [PaymentController::class, 'showEvent']);
