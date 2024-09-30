@@ -73,4 +73,12 @@ class PaymentController extends Controller
 
         return response()->json(['message' => 'Compra realizada con éxito', 'ticket' => $ticket]);
     }
+
+    public function getPurchases()
+    {
+        // Recuperar los boletos con las relaciones del evento y el asistente
+        $tickets = Ticket::with(['event', 'attendee'])->get();
+
+        return response()->json($tickets);
+    }
 }

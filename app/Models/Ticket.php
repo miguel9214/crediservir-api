@@ -17,4 +17,16 @@ class Ticket extends Model
         'discount_code',
         'purchase_date'
     ];
+
+    // Relación con el evento
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
+
+    // Relación con el asistente
+    public function attendee()
+    {
+        return $this->belongsTo(Attendee::class);
+    }
 }

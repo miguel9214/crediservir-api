@@ -18,13 +18,18 @@ class Attendee extends Model
     }
 
     protected $fillable = [
-        'first_name', 
-        'last_name', 
-        'date', 
-        'birth_date', 
-        'email', 
-        'phone', 
+        'first_name',
+        'last_name',
+        'date',
+        'birth_date',
+        'email',
+        'phone',
     ];
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 
 
 }

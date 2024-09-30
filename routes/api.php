@@ -46,3 +46,5 @@ Route::post('/discounts/validate', [DiscountCodeController::class, 'validateCode
 Route::get('events/{id}/details', [PaymentController::class, 'showEvent']);
 Route::post('events/{id}/purchase', [PaymentController::class, 'purchaseTicket']);
 
+Route::get('purchases', [PaymentController::class, 'getPurchases']);
+
