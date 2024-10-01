@@ -28,4 +28,11 @@ class DiscountCode extends Model
     {
         return $this->attributes['status'] == 1 ? 'Activo' : 'Inactivo';
     }
+    
+    public function tickets()
+    {
+        return $this->belongsToMany(Ticket::class, 'discount_ticket');
+    }
+
+    
 }

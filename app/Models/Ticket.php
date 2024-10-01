@@ -29,4 +29,9 @@ class Ticket extends Model
     {
         return $this->belongsTo(Attendee::class);
     }
+
+    public function discountCodes()
+    {
+        return $this->belongsToMany(DiscountCode::class, 'discount_ticket');
+    }
 }
