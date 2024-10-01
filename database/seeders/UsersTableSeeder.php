@@ -18,19 +18,19 @@ class UsersTableSeeder extends Seeder
          User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password123'), // Asegúrate de hashear la contraseña
+            'password' => Hash::make('password123'),
         ]);
 
         User::create([
             'name' => 'Regular User',
             'email' => 'user@example.com',
-            'password' => Hash::make('password123'), // Asegúrate de hashear la contraseña
+            'password' => Hash::make('password123'),
         ]);
 
         User::create([
             'name' => 'Jane Doe',
             'email' => 'jane@example.com',
-            'password' => Hash::make('password123'), // Asegúrate de hashear la contraseña
+            'password' => Hash::make('password123'), 
         ]);
     }
 }

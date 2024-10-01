@@ -20,7 +20,7 @@ class EventSeeder extends Seeder
             'location' => 'Auditorio Principal',
             'capacity' => 100,
             'type' => 'paid',
-            'base_price' => 50.00,
+            'base_price' => 150000.00,
             'category_id' => 1, // Conferencias
             'registration_open' => '2024-11-01 08:00:00',
             'registration_close' => '2024-11-30 23:59:59',

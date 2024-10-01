@@ -18,7 +18,7 @@ class TicketSeeder extends Seeder
             'event_id' => 1, // ID del evento (Conferencia de Laravel)
             'attendee_id' => 1, // ID del asistente (Miguel Gómez)
             'ticket_type' => 'VIP',
-            'price' => 65.00,
+            'price' => 150000.00,
             'purchase_date' => now(), // Base price 50 + 30% for VIP
         ]);
 
