@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('attendees', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name'); // Primer nombre del asistente
-            $table->string('last_name'); // Apellido del asistente
-            $table->date('birth_date'); // Fecha de nacimiento
-            $table->string('email')->unique(); // Email del asistente
-            $table->string('phone'); // Número de celular
+            $table->string('first_name');
+            $table->string('last_name'); 
+            $table->date('birth_date'); 
+            $table->string('email')->unique(); 
+            $table->string('phone'); 
             $table->timestamps();
         });
     }

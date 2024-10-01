@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('discount_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique(); // Código de descuento
-            $table->decimal('discount_percentage', 5, 2); // Porcentaje de descuento
-            $table->date('valid_from'); // Fecha de inicio de validez
-            $table->date('valid_until'); // Fecha de fin de validez
-            $table->boolean('status')->default(1); // Estado del código (activo/inactivo)
+            $table->string('code')->unique();
+            $table->decimal('discount_percentage', 5, 2); 
+            $table->date('valid_from'); 
+            $table->date('valid_until'); 
+            $table->boolean('status')->default(1); 
             $table->timestamps();
         });
     }

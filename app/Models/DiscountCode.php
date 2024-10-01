@@ -23,12 +23,13 @@ class DiscountCode extends Model
         return $this->status &&
             now()->between($this->valid_from, $this->valid_until);
     }
-    // En tu modelo Discount.php
+
+
     public function getStatusAttribute()
     {
         return $this->attributes['status'] == 1 ? 'Activo' : 'Inactivo';
     }
-    
+
     public function tickets()
     {
         return $this->belongsToMany(Ticket::class, 'discount_ticket');

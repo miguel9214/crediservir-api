@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('waiting_lists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->constrained('events'); // Relación con la tabla de eventos
-            $table->foreignId('attendee_id')->constrained('attendees'); // Relación con la tabla de asistentes
+            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('attendee_id')->constrained('attendees'); 
             $table->timestamps();
         });
     }

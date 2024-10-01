@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->constrained('events'); // Relación con la tabla de eventos
-            $table->foreignId('attendee_id')->constrained('attendees'); // Relación con la tabla de asistentes
-            $table->enum('ticket_type', ['free', 'general', 'vip']); // Tipo de entrada
-            $table->decimal('price', 8, 2); // Precio total de la entrada
-            $table->string('discount_code')->nullable(); // Código promocional aplicado
-            $table->dateTime('purchase_date'); // Fecha y hora de la compra
+            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('attendee_id')->constrained('attendees');
+            $table->enum('ticket_type', ['free', 'general', 'vip']);
+            $table->decimal('price', 8, 2); 
+            $table->string('discount_code')->nullable();
+            $table->dateTime('purchase_date');
             $table->timestamps();
         });
     }
