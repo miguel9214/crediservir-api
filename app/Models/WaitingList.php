@@ -13,4 +13,10 @@ class WaitingList extends Model
     {
         return $this->hasMany(WaitingList::class);
     }
+
+    protected $fillable = [
+        'event_id',
+        'attendee_id',
+    ];
+
 }

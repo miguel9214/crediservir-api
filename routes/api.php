@@ -8,6 +8,7 @@ use App\Http\Controllers\AttendeeController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountCodeController;
+use App\Http\Controllers\WaitingListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,9 @@ Route::resource('attendees', AttendeeController::class);
 
 //Categorias
 Route::resource('categories', CategoryController::class);
+
+//Lista de espera
+Route::resource('waiting', WaitingListController::class);
 
 //Codigo de descuetos
 Route::resource('discounts', DiscountCodeController::class);
