@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\DiscountCode;
+use App\Models\TicketDiscount;
+use App\Models\WaitingList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
@@ -24,14 +27,22 @@ class PaymentController extends Controller
         $validatedData = $request->validate([
             'attendee_id' => 'required|exists:attendees,id',
             'ticket_type' => 'required|in:free,general,vip',
-            'discount_codes' => 'nullable|array', // Aquí permitimos un array de códigos de descuento
-            'discount_codes.*' => 'string', // Validamos que cada código sea una cadena
+            'discount_codes' => 'nullable'
         ]);
+
+        info("datos", [$validatedData]);
 
         // Verificar si hay capacidad disponible
         if ($event->capacity <= 0) {
-            return response()->json(['message' => 'Capacidad agotada, te hemos añadido a la lista de espera.'], 400);
+
+            $waiting=WaitingList::create([
+                'event_id' => $event->id,
+                'attendee_id' => $validatedData['attendee_id'],
+            ]);
+            return response()->json(['message' => 'Capacidad agotada, te hemos añadido a la lista de espera.','Asistente agregado a lista de espera' => $waiting], 400);
+
         }
+
 
         $basePrice = $event->base_price;
         $additionalPrice = 0;
@@ -44,13 +55,14 @@ class PaymentController extends Controller
         }
 
         $totalPrice = $basePrice + $additionalPrice;
+        $totalPriceBase = $totalPrice;
 
         // Aplicar códigos de descuento si existen
-        if (!empty($validatedData['discount_codes'])) {
+        if (count($validatedData['discount_codes']) > 0) {
             $totalDiscount = 0;
 
             foreach ($validatedData['discount_codes'] as $code) {
-                $discount = $this->getDiscountByCode($code); // Usamos el método que implementaremos más abajo
+                $discount = $code["discount_percentage"] ?? 0; // Usamos el método que implementaremos más abajo
                 $totalDiscount += $discount; // Acumulamos los descuentos
             }
 
@@ -70,9 +82,21 @@ class PaymentController extends Controller
             'attendee_id' => $validatedData['attendee_id'],
             'ticket_type' => $validatedData['ticket_type'],
             'price' => $totalPrice,
-            'discount_code' => implode(',', $validatedData['discount_codes'] ?? []), // Guardar los códigos de descuento como una cadena separada por comas
+            // 'discount_code' => implode(',', $validatedData['discount_codes'] ?? []), // Guardar los códigos de descuento como una cadena separada por comas
             'purchase_date' => now(),
+            'created_by_user' => Auth::id()
         ]);
+
+        foreach ($validatedData['discount_codes']as $key => $value) {
+            $percentage = $value["discount_percentage"];
+            $amount = $totalPriceBase * ($percentage / 100);
+            TicketDiscount::create([
+                'amount' => $amount,
+                'percentage' => $percentage,
+                'ticket_id' => $ticket->id,
+                'discount_id' => $value["id"]
+            ]);
+        }
 
         // Disminuir capacidad del evento
         $event->capacity -= 1;

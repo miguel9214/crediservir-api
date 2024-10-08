@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -21,6 +22,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
+        $validated["created_by_user"] = Auth::id();
         $category = Category::create($validatedData);
         return response()->json(['message' => 'Categoría creada con éxito', 'category' => $category], 201);
     }
@@ -39,6 +41,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
+        $validatedData["updated_by_user"] = Auth::id();
         $category = Category::findOrFail($id);
         $category->update($validatedData);
         return response()->json(['message' => 'Categoría actualizada con éxito', 'category' => $category]);

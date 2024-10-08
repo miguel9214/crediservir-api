@@ -19,4 +19,16 @@ class WaitingList extends Model
         'attendee_id',
     ];
 
+        // Relación con el evento
+        public function event()
+        {
+            return $this->belongsTo(Event::class);
+        }
+
+        // Relación con el asistente
+        public function attendee()
+        {
+            return $this->belongsTo(Attendee::class);
+        }
+
 }

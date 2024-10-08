@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -31,6 +32,7 @@ class EventController extends Controller
             'registration_close' => 'required|date',
         ]);
 
+        $validatedData["created_by_user"] = Auth::id();
         $event = Event::create($validatedData);
         return response()->json(['message' => 'Evento creado con éxito', 'event' => $event], 201);
     }
@@ -51,6 +53,7 @@ class EventController extends Controller
             'registration_close' => 'required|date',
         ]);
 
+        $validatedData["updated_by_user"] = Auth::id();
         $event = Event::findOrFail($id);
         $event->update($validatedData);
         return response()->json(['message' => 'Evento actualizado con éxito', 'event' => $event]);

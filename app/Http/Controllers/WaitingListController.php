@@ -11,11 +11,16 @@ class WaitingListController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
-        $codes = WaitingList::all();
-        return response()->json($codes);
+        // Recuperar la lista con las relaciones del evento y el asistente
+        $waiting = WaitingList::with(['event', 'attendee'])->get();
+
+        return response()->json($waiting);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -28,7 +33,7 @@ class WaitingListController extends Controller
         ]);
 
         $waitList = WaitingList::create($validatedData);
-        return response()->json(['message' => 'Se agregadoasistente a lista de espera ', 'waiting' => $waitList], 201);
+        return response()->json(['message' => 'Se agregado asistente a lista de espera ', 'waiting' => $waitList], 201);
     }
 
     /**

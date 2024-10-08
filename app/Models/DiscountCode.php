@@ -15,6 +15,8 @@ class DiscountCode extends Model
         'valid_from',
         'valid_until',
         'status',
+        'created_by_user',
+        'updated_by_user'
     ];
 
     // Verificar si el código está activo y dentro de su rango de validez
@@ -34,6 +36,4 @@ class DiscountCode extends Model
     {
         return $this->belongsToMany(Ticket::class, 'discount_ticket');
     }
-
-    
 }

@@ -21,34 +21,34 @@ use App\Http\Controllers\WaitingListController;
 |
 */
 
-Route::group(['middleware' => 'api','prefix' => 'auth'], function () {
+Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']); // Si necesitas registro
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me'])->middleware('auth:api');
 });
 
+Route::group(['middleware' => 'auth'], function () {
+    // Gestión de eventos
+    Route::resource('events', EventController::class);
 
-// Gestión de eventos
-Route::resource('events', EventController::class);
+    // Gestión de asistentes
+    Route::resource('attendees', AttendeeController::class);
 
-// Gestión de asistentes
-Route::resource('attendees', AttendeeController::class);
+    //Categorias
+    Route::resource('categories', CategoryController::class);
 
-//Categorias
-Route::resource('categories', CategoryController::class);
+    //Lista de espera
+    Route::resource('waitings', WaitingListController::class);
 
-//Lista de espera
-Route::resource('waiting', WaitingListController::class);
-
-//Codigo de descuetos
-Route::resource('discounts', DiscountCodeController::class);
-Route::post('/discounts/validate', [DiscountCodeController::class, 'validateCode']);
+    //Codigo de descuetos
+    Route::resource('discounts', DiscountCodeController::class);
+    Route::post('/discounts/validate', [DiscountCodeController::class, 'validateCode']);
 
 
-// Pagos
-Route::get('events/{id}/details', [PaymentController::class, 'showEvent']);
-Route::post('events/{id}/purchase', [PaymentController::class, 'purchaseTicket']);
+    // Pagos
+    Route::get('events/{id}/details', [PaymentController::class, 'showEvent']);
+    Route::post('events/{id}/purchase', [PaymentController::class, 'purchaseTicket']);
 
-Route::get('purchases', [PaymentController::class, 'getPurchases']);
-
+    Route::get('purchases', [PaymentController::class, 'getPurchases']);
+});

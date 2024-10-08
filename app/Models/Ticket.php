@@ -15,7 +15,9 @@ class Ticket extends Model
         'ticket_type',
         'price',
         'discount_code',
-        'purchase_date'
+        'purchase_date',
+        'created_by_user',
+        'updated_by_user'
     ];
 
     // Relación con el evento

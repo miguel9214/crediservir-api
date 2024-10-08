@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\DiscountCode;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DiscountCodeController extends Controller
 {
     // Listar todos los códigos de descuento
     public function index()
     {
+        info("usuario", [Auth::user()]);
         $codes = DiscountCode::all();
         return response()->json($codes);
     }
@@ -26,6 +28,7 @@ class DiscountCodeController extends Controller
             'status' => 'required|boolean',
         ]);
 
+        $validated["created_by_user"] = Auth::id();
         $discountCode = DiscountCode::create($validated);
 
         return response()->json(['message' => 'Código de descuento creado', 'discount' => $discountCode], 201);
@@ -64,6 +67,7 @@ class DiscountCodeController extends Controller
             'status' => 'required|boolean',
         ]);
 
+        $validated["updated_by_user"] = Auth::id();
         $discountCode->update($validated);
 
         return response()->json(['message' => 'Código de descuento actualizado', 'discount' => $discountCode]);

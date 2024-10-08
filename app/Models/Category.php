@@ -15,5 +15,7 @@ class Category extends Model
     }
     protected $fillable = [
         'name',
+        'created_by_user',
+        'updated_by_user'
     ];
 }

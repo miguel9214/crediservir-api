@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AttendeeController extends Controller
 {
@@ -25,6 +26,7 @@ class AttendeeController extends Controller
             'phone' => 'required|string|max:20',
         ]);
 
+        $validatedData["created_by_user"] = Auth::id();
         $attendee = Attendee::create($validatedData);
         return response()->json(['message' => 'Asistente registrado con éxito', 'attendee' => $attendee], 201);
     }
@@ -47,6 +49,7 @@ class AttendeeController extends Controller
             'phone' => 'required|string|max:20',
         ]);
 
+        $validatedData["updated_by_user"] = Auth::id();
         $attendee = Attendee::findOrFail($id);
         $attendee->update($validatedData);
         return response()->json(['message' => 'Asistente actualizado con éxito', 'attendee' => $attendee]);
