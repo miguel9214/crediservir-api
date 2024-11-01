@@ -35,17 +35,19 @@ class PaymentController extends Controller
         // Verificar si hay capacidad disponible
         if ($event->capacity <= 0) {
 
-            $waiting=WaitingList::create([
+            $waiting = WaitingList::create([
                 'event_id' => $event->id,
                 'attendee_id' => $validatedData['attendee_id'],
             ]);
-            return response()->json(['message' => 'Capacidad agotada, te hemos añadido a la lista de espera.','Asistente agregado a lista de espera' => $waiting], 400);
-
+            return response()->json(['message' => 'Capacidad agotada, te hemos añadido a la lista de espera.', 'Asistente agregado a lista de espera' => $waiting], 400);
         }
 
 
         $basePrice = $event->base_price;
         $additionalPrice = 0;
+
+        // $ticketType = TicketType::where('name', $validatedData['ticket_type'])->first();
+
 
         // Calcular precio adicional basado en el tipo de boleto
         if ($validatedData['ticket_type'] === 'general') {
@@ -87,7 +89,7 @@ class PaymentController extends Controller
             'created_by_user' => Auth::id()
         ]);
 
-        foreach ($validatedData['discount_codes']as $key => $value) {
+        foreach ($validatedData['discount_codes'] as $key => $value) {
             $percentage = $value["discount_percentage"];
             $amount = $totalPriceBase * ($percentage / 100);
             TicketDiscount::create([
@@ -108,8 +110,59 @@ class PaymentController extends Controller
     // Método para obtener los detalles de compra
     public function getPurchases()
     {
-        // Recuperar los boletos con las relaciones del evento y el asistente
-        $tickets = Ticket::with(['event', 'attendee'])->get();
+        $tickets = Ticket::join('events', 'tickets.event_id', '=', 'events.id')
+        ->join('attendees', 'tickets.attendee_id', '=', 'attendees.id')
+        ->select(
+        'tickets.id',
+        'events.title',
+        'events.description',
+        'events.location',
+        'events.date',
+        'attendees.first_name',
+        'attendees.last_name',
+        'attendees.email',
+        'attendees.phone',
+        'tickets.price',
+        'tickets.ticket_type',
+        'tickets.purchase_date',
+        )
+        ->get();
+
+            foreach ($tickets as $ticket) {
+                $ticket->discount_code = TicketDiscount::join('discount_codes', 'ticket_discounts.discount_id', '=', 'discount_codes.id')
+                   ->where('ticket_id', $ticket->id)
+                    ->select('discount_codes.code', 'ticket_discounts.amount', 'ticket_discounts.percentage')
+                    ->get();
+            }
+
+        return response()->json($tickets);
+    }
+
+    public function getDiscount()
+    {
+
+        $tickets = Ticket::join('events', 'tickets.event_id', '=', 'events.id')
+        ->join('attendees', 'tickets.attendee_id', '=', 'attendees.id')
+        ->select(
+        'tickets.id',
+        'events.title',
+        'events.description',
+        'events.location',
+        'events.date',
+        'attendees.first_name',
+        'attendees.email',
+        'attendees.phone',
+        'tickets.price',
+        'tickets.purchase_date',
+        )
+        ->get();
+
+            foreach ($tickets as $ticket) {
+                $ticket->discount_code = TicketDiscount::join('discount_codes', 'ticket_discounts.discount_id', '=', 'discount_codes.id')
+                   ->where('ticket_id', $ticket->id)
+                    ->select('discount_codes.code', 'ticket_discounts.amount', 'ticket_discounts.percentage')
+                    ->get();
+            }
 
         return response()->json($tickets);
     }

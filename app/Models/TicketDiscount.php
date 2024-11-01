@@ -16,4 +16,15 @@ class TicketDiscount extends Model
         'amount',
     ];
 
+            // Relación con los tickets
+            public function ticket()
+            {
+                return $this->belongsTo(Ticket::class);
+            }
+
+            // Relación con los descuentos
+            public function discount()
+            {
+                return $this->belongsTo(DiscountCode::class);
+            }
 }

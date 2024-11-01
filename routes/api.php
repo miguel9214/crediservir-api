@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DiscountCodeController;
 use App\Http\Controllers\WaitingListController;
+use App\Http\Controllers\AditionalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     //Categorias
     Route::resource('categories', CategoryController::class);
 
+    Route::resource('aditionalPrice', AditionalController::class);
+
     //Lista de espera
     Route::resource('waitings', WaitingListController::class);
 
@@ -51,4 +54,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('events/{id}/purchase', [PaymentController::class, 'purchaseTicket']);
 
     Route::get('purchases', [PaymentController::class, 'getPurchases']);
+    // Route::get('purchases', [PaymentController::class, 'getDiscount']);
 });
+
+
