@@ -39,8 +39,6 @@ Route::group(['middleware' => 'auth'], function () {
     //Categorias
     Route::resource('categories', CategoryController::class);
 
-    Route::resource('aditionalPrice', AditionalController::class);
-
     //Lista de espera
     Route::resource('waitings', WaitingListController::class);
 
